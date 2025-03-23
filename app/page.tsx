@@ -1,103 +1,192 @@
-import Image from "next/image";
+// app/page.tsx
+'use client';
 
-export default function Home() {
+import React, { useState, useEffect } from 'react';
+import Header from './components/Header';
+
+export default function HomePage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
+  const [currentSection, setCurrentSection] = useState('');
+  const [showHeader, setShowHeader] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [hasInitialTransition, setHasInitialTransition] = useState(false);
+
+  useEffect(() => {
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    const contentTimer = setTimeout(() => {
+      setShowContent(true);
+    }, 2300);
+
+    return () => {
+      clearTimeout(loadingTimer);
+      clearTimeout(contentTimer);
+    };
+  }, []);
+
+  const handleNavigation = (section: string) => {
+    if (isTransitioning) return;
+    
+    setIsTransitioning(true);
+    setCurrentSection(section);
+    setShowWelcome(false);
+
+    if (!hasInitialTransition) {
+      // First transition - animate from center
+      setTimeout(() => {
+        setShowHeader(true);
+      }, 800);
+
+      setTimeout(() => {
+        setHasInitialTransition(true);
+        setIsTransitioning(false);
+      }, 1600);
+    } else {
+      // Subsequent transitions - instant header update
+      setShowHeader(true);
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 600);
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="min-h-screen bg-gradient-to-br from-gray-900 to-black overflow-hidden">
+      <Header 
+        isVisible={showHeader} 
+        currentSection={currentSection}
+        onNavigate={handleNavigation}
+        isInitialTransition={isTransitioning && !hasInitialTransition}
+        hasInitialTransition={hasInitialTransition}
+      />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-5xl font-bold text-white mb-4">
+              <span className="block mb-2 clip-text animate-reveal">John Doe</span>
+              <span className="text-3xl block clip-text animate-reveal-delayed">Web Developer</span>
+            </h1>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      )}
+
+      <div 
+        className={`
+          flex items-center justify-center min-h-screen 
+          ${showContent ? 'opacity-100' : 'opacity-0'} 
+          transition-all duration-1000
+          ${showHeader ? 'mt-20' : ''}
+        `}
+      >
+        <div className="text-center text-white w-full">
+          {showWelcome && (
+            <div 
+              className={`transform ${showContent ? 'animate-slide-from-left' : ''}`}
+              style={{ animationDelay: '0.3s' }}
+            >
+              <h1 className="text-5xl font-bold mb-4">Welcome to My Portfolio</h1>
+              <p className="text-xl mb-8">Discover my journey, projects, and passion</p>
+            </div>
+          )}
+          
+          {!showHeader && !isTransitioning && (
+            <div 
+              className={`
+                flex justify-center space-x-4 
+                ${showContent ? 'animate-slide-from-right opacity-100' : 'opacity-0'} 
+                transition-all duration-700
+              `} 
+              style={{ animationDelay: '0.6s' }}
+            >
+              <nav className="bg-white shadow-md rounded-full p-2 flex space-x-4">
+                {['about', 'projects', 'contact'].map((section, index) => (
+                  <button
+                    key={section}
+                    onClick={() => handleNavigation(section)}
+                    className={`
+                      px-6 py-2 rounded-full transition duration-300 
+                      bg-blue-600 text-white hover:bg-blue-700 transform 
+                      opacity-0 animate-fade-in
+                    `}
+                    style={{ 
+                      animationDelay: `${0.8 + index * 0.15}s`,
+                      animationFillMode: 'forwards'
+                    }}
+                  >
+                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                  </button>
+                ))}
+              </nav>
+            </div>
+          )}
+
+          {isTransitioning && !hasInitialTransition && (
+            <div className="pointer-events-none fixed inset-0 flex items-center justify-center">
+              <h2 className="text-4xl font-bold text-white animate-title-to-header">
+                {currentSection.charAt(0).toUpperCase() + currentSection.slice(1)}
+              </h2>
+            </div>
+          )}
+
+          {showHeader && !isTransitioning && (
+            <div className="container mx-auto px-4">
+              {currentSection === 'about' && (
+                <div className="animate-content-reveal max-w-3xl mx-auto">
+                  <p className="text-lg leading-relaxed mb-6">
+                    I'm a passionate web developer with a keen eye for detail and a love for creating
+                    beautiful, functional websites. With expertise in modern web technologies,
+                    I bring ideas to life through clean code and intuitive design.
+                  </p>
+                  <p className="text-lg leading-relaxed">
+                    My journey in web development started with a curiosity for how things work on the internet,
+                    and has evolved into a professional pursuit of creating exceptional digital experiences.
+                  </p>
+                </div>
+              )}
+
+              {currentSection === 'projects' && (
+                <div className="animate-content-reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[1, 2, 3].map((project) => (
+                    <div key={project} className="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
+                      <h3 className="text-xl font-bold mb-2">Project {project}</h3>
+                      <p className="text-gray-300">
+                        Description of project {project}. Click to learn more about this exciting work.
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {currentSection === 'contact' && (
+                <div className="animate-content-reveal max-w-xl mx-auto">
+                  <p className="text-lg mb-8">
+                    Let's work together! Feel free to reach out through any of these channels:
+                  </p>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-center space-x-4">
+                      <span className="text-blue-400">Email:</span>
+                      <a href="mailto:contact@johndoe.com" className="hover:text-blue-400 transition-colors">
+                        contact@johndoe.com
+                      </a>
+                    </div>
+                    <div className="flex items-center justify-center space-x-4">
+                      <span className="text-blue-400">LinkedIn:</span>
+                      <a href="#" className="hover:text-blue-400 transition-colors">
+                        /in/johndoe
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </main>
   );
 }

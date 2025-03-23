@@ -1,4 +1,351 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-reveal {
+    animation: reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  }
+
+  .animate-reveal-delayed {
+    animation: reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) 0.3s forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-title-to-header {
+    animation: titleToHeader 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .animate-header-title-in {
+    animation: headerTitleIn 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .animate-header-title-change {
+    animation: headerTitleChange 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    visibility: hidden;
+  }
+
+  .animate-header-title-slide-left {
+    animation: headerTitleSlideLeft 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    visibility: hidden;
+  }
+
+  .animate-header-title-slide-right {
+    animation: headerTitleSlideRight 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    visibility: hidden;
+  }
+
+  .animate-header-title-slide-left-enter {
+    animation: headerTitleSlideLeftEnter 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    opacity: 0;
+    transform: translateX(-50px);
+    visibility: hidden;
+    animation-delay: 0.3s;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+  }
+
+  .animate-header-title-slide-right-enter {
+    animation: headerTitleSlideRightEnter 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  .animate-header-title-slide-left-exit {
+    animation: headerTitleSlideLeftExit 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .animate-header-title-slide-right-exit {
+    animation: headerTitleSlideRightExit 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    opacity: 1;
+    transform: translateX(0);
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+  }
+
+  .animate-nav-to-header {
+    animation: navToHeader 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  .animate-content-reveal {
+    animation: contentReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-from-left {
+    animation: slideFromLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+
+  .animate-slide-from-right {
+    animation: slideFromRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-fade-out {
+    animation: fadeOut 0.5s ease-out forwards;
+  }
+
+  .clip-text {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes reveal {
+    0% {
+      clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideFromRight {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes titleToHeader {
+    0% {
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -35%) scale(1.25);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -20px) scale(1);
+      opacity: 0;
+    }
+  }
+
+  @keyframes headerTitleIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes headerTitleChange {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+    50% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    51% {
+      visibility: visible;
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+  }
+
+  @keyframes headerTitleSlideLeft {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+      visibility: visible;
+    }
+    50% {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    51% {
+      transform: translateX(30px);
+      visibility: visible;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+      visibility: visible;
+    }
+  }
+
+  @keyframes headerTitleSlideRight {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+      visibility: visible;
+    }
+    50% {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    51% {
+      transform: translateX(-30px);
+      visibility: visible;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+      visibility: visible;
+    }
+  }
+
+  @keyframes headerTitleSlideLeftEnter {
+    0% {
+      opacity: 0;
+      transform: translateX(-50px);
+      visibility: visible;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+      visibility: visible;
+    }
+  }
+
+  @keyframes headerTitleSlideRightEnter {
+    0% {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes headerTitleSlideLeftExit {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+  }
+
+  @keyframes headerTitleSlideRightExit {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+  }
+
+  @keyframes navToHeader {
+    0% {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -200%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes contentReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
 
 :root {
   --background: #ffffff;
